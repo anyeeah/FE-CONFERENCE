@@ -33,3 +33,28 @@ export const createEntry = async (req, res) => {
         res.status(500).json({message:"생성 과정에서 에러 발생", error});
     }
 };
+
+// 삭제 로직
+export const deleteEntry = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const entry = await GuestBook.findByIdAndDelete(id);
+        if (!entry) return res.status(404).json({ message: "해당하는 데이터가 없습니다." });
+        res.status(200).json({ message: "삭제 완료" });
+    } catch (error) {
+        res.status(500).json({ message: "삭제 과정에서 에러 발생", error });
+    }
+};
+
+// 수정 로직
+export const updateEntry = async (req, res) => {
+    const { id } = req.params;
+    const { author, message } = req.body;
+    try {
+        const entry = await GuestBook.findByIdAndUpdate(id, { author, message }, { new: true });
+        if (!entry) return res.status(404).json({ message: "해당하는 데이터가 없습니다." });
+        res.status(200).json({ message: "수정 완료", entry });
+    } catch (error) {
+        res.status(500).json({ message: "수정 과정에서 에러 발생", error });
+    }
+};

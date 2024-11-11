@@ -13,21 +13,26 @@
         <form action="/guestbook" method="POST">
             <input type="text" name="author" placeholder="작성자" required>
             <textarea name="message" placeholder="내용" required></textarea>
-            <button type="submit">버튼</button>
+            <button type="submit">완료
+            </button>
         </form>
 
       <h2>방명록 목록</h2>
       <div class="entries">
         <% entries.forEach(entry => { %>
-        <div class="entry">
+        <div class="entry" data-id="<%= entry._id %>">
           <div class="entry-header">
             <div class="author"><%= entry.author %></div>
             <div class="date"><%= entry.createdAt.toLocaleString() %></div>
           </div>
           <div class="message"><%= entry.message %></div>
+          <button class="edit-button" data-id="<%= entry._id %>">수정</button>
+          <button class="save-button" data-id="<%= entry._id %>" style="display: none;">완료</button>
+          <button class="delete-button" data-id="<%= entry._id %>">삭제</button>
         </div>
         <% }) %>
       </div>
+      <script src="/guestbook.js"></script>      
     </div>
   </body>
 </html>
